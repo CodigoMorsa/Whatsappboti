@@ -22,9 +22,11 @@ alarmas = db["alarmas"]
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 SERVICE_ACCOUNT_FILE = "service_account.json"
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
-)
+import json
+credentials_info = json.loads(os.environ.get("GOOGLE_CREDENTIALS"))
+credentials = service_account.Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
+
+
 service = googleapiclient.discovery.build("calendar", "v3", credentials=credentials)
 
 
